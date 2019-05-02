@@ -1,7 +1,7 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 
-var connection = mysql.createConnection({
+var con = mysql.createConnection({
     host: "localhost",
     port: 3306,
     user: "root",
@@ -9,15 +9,17 @@ var connection = mysql.createConnection({
     database: "bamazon_db"
 });
 
-connection.connect(function(err) {
+con.connect(function(err) {
     if (err) throw err;
     availableProducts();
 });
 
 function availableProducts() {
     console.log("\nBamazon Merch: \n");
-    connection.query("SELECT item_id, product_name, price FROM products", function(err, data) {
+    con.query("SELECT item_id, product_name, price FROM products", function(err, data) {
         if (err) throw err;
-        console.log(data);
+        for (i = 0; i < data.length; i++) { 
+            console.log(data[i]);
+          }
     });
 };
