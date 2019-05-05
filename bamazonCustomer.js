@@ -52,9 +52,8 @@ function availableProducts() {
                     }
                 }
                 if (chosenItem.stock_quantity > answer.amount) {
-                    console.log("hey")
                     var newSQ = parseInt(chosenItem.stock_quantity) - parseInt(answer.amount);
-                    console.log(newSQ);
+                    // console.log(newSQ + "newSQ");
                     con.query(
                         "UPDATE products SET ? WHERE ?",
                         [{
@@ -66,19 +65,23 @@ function availableProducts() {
                         ],
                         function (error) {
                             if (error) throw err;
-                            console.log("Your shopping cart has been updated!");
+                            console.log("Your shopping cart has been updated! What eles would you like to buy?");
+                            availableProducts();
                         }
                     );
                 }
+                    else {
+                        console.log("The stock is not sufficent to place this order. Is there anything else you would like to buy?")
+                        availableProducts();
+                    }
             });
     })
 };
 
 let validateInput = (value) => {
     var integer = Number.isInteger(parseFloat(value))
-    var sign = Math.sign(value)
 
-    if (integer && (sign === 1)) {
+    if (integer) {
         return true;
     } else {
         return "Please only input numbers"
